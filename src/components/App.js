@@ -28,18 +28,21 @@ class App extends Component {
   
     handleFeedback = (evt) => {
       this.setState(prevState => ({
-        [evt.target.id]: prevState[evt.target.id] +1
+        [evt.target.id]: prevState[evt.target.id] + 1
       }))
     }
   
   render() {
     const { good, neutral, bad } = this.state
+    const optionsArray = Object.keys(this.state)
 
     return (
       <>
         <Section title='Leave feedback'>
-          <FeedbackOptions onLeaveFeedback={this.handleFeedback} />
-          {Boolean(good + neutral + bad) ?
+          <FeedbackOptions onLeaveFeedback={this.handleFeedback} options={optionsArray} />
+        </Section>
+        <Section title='Leave feedback'>
+          {this.countTotalFeedback() > 0 ?
             <Statistics good={good} neutral={neutral} bad={bad} total={this.countTotalFeedback()} positivePercentage={this.countPositiveFeedbackPercentage()} /> :
             <NotificationMessage message={'There is no feedback'} />}
         </Section>
